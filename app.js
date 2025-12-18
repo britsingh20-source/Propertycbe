@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 👇 THIS LINE FIXES YOUR IMAGE ISSUE
         const images = cols.slice(6, 12).map(cleanUrl).filter(Boolean);
-        const mainImage = images[0] || "";
+        const mainImage = "https://raw.githubusercontent.com/github/explore/main/topics/html/html.png";
 
         container.innerHTML += `
           <div class="card">
