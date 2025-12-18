@@ -52,7 +52,25 @@ fetch(CSV_URL)
             <p><strong>Location:</strong> ${location}</p>
             <p class="price">₹ ${price}</p>
             <p>${description}</p>
-            <p><strong>Features:</strong> ${features}</p>
+            container.innerHTML += `
+  <div class="card">
+    <div class="card-body">
+      <h3>${title}</h3>
+
+      <p><strong>Location:</strong> ${location}</p>
+      <p class="price">₹ ${price}</p>
+
+      <p>${description}</p>
+      <p><strong>Features:</strong> ${features}</p>
+
+      <a class="btn whatsapp"
+         href="https://wa.me/918111024877?text=Hi%20I%20am%20interested%20in%20${encodeURIComponent(title)}"
+         target="_blank">
+         📞 Enquire on WhatsApp
+      </a>
+    </div>
+  </div>
+`;
 
             <div class="actions">
               ${
