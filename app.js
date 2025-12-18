@@ -35,6 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
     return rows;
   }
 
+  // 🔧 CLEAN URL (THIS IS THE KEY FIX)
+  function cleanUrl(url) {
+    if (!url) return "";
+    return url
+      .trim()
+      .replace(/^"+|"+$/g, "")   // remove quotes
+      .replace(/\s/g, "");       // remove spaces
+  }
+
   fetch(CSV_URL)
     .then(res => res.text())
     .then(text => {
@@ -51,13 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const description = cols[4];
         const features = cols[5];
 
-        /* IMAGE MUST BE GITHUB RAW IMAGE URL */
-        const images = cols.slice(6, 12).filter(Boolean);
+        // 👇 THIS LINE FIXES YOUR IMAGE ISSUE
+        const images = cols.slice(6, 12).map(cleanUrl).filter(Boolean);
         const mainImage = images[0] || "";
 
         container.innerHTML += `
           <div class="card">
-            ${mainImage ? `<img src="${mainImage}" alt="${title}">` : ""}
+            ${mainImage ? `<img src="${mainImage}" alt="${title}" loading="lazy">` : ""}
             <div class="card-body">
               <h3>${title}</h3>
               <p><strong>Location:</strong> ${location}</p>
@@ -75,7 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       });
     })
-    .catch(() => {
+    .catch(err => {
+      console.error(err);
       document.getElementById("properties").innerHTML =
         "<p>Unable to load properties</p>";
     });
