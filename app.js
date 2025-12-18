@@ -38,15 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch(CSV_URL)
     .then(res => res.text())
     .then(text => {
-      const data = parseCSV(text);
-      const rows = data.slice(1); // remove header
+      const rows = parseCSV(text).slice(1);
       const container = document.getElementById("properties");
-
-      if (!container) {
-        console.error("❌ #properties div not found");
-        return;
-      }
-
       container.innerHTML = "";
 
       rows.forEach(cols => {
@@ -58,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const description = cols[4];
         const features = cols[5];
 
+        /* IMAGE MUST BE GITHUB RAW IMAGE URL */
         const images = cols.slice(6, 12).filter(Boolean);
         const mainImage = images[0] || "";
 
@@ -81,14 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       });
     })
-    .catch(err => {
-      console.error("❌ CSV Load Error:", err);
-      const container = document.getElementById("properties");
-      if (container) {
-        container.innerHTML =
-          "<p style='padding:20px'>Unable to load properties</p>";
-      }
+    .catch(() => {
+      document.getElementById("properties").innerHTML =
+        "<p>Unable to load properties</p>";
     });
 
 });
-
